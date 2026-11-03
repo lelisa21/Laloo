@@ -1,71 +1,93 @@
-import { useState, useEffect } from 'react';
-import HUD from './components/HUD';
-import Hero from './components/Hero';
-import ProjectsSection from './components/ProjectsSection';
-import ConcurrencyMatrix from './components/ConcurrencyMatrix';
-import ExperienceTimeline from './components/ExperienceTimeline';
-import CreativeLab from './components/CreativeLab';
-import InteractiveTerminal from './components/InteractiveTerminal';
-import Footer from './components/Footer';
-import CustomCursor from './components/CustomCursor';
-import InteractiveCanvas from './components/InteractiveCanvas';
-import CommandPalette from './components/CommandPalette';
-import { sound } from './audio/soundFX';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "framer-motion";
+import { ToastCtx } from "./context/ToastContext";
+import { ScrollBar } from "./components/Common";
+import Cursor from "./components/Cursor";
+import Toast from "./components/Toast";
+import Nav from "./components/Nav";
+import Hero from "./components/Hero";
+import Marquee from "./components/Marquee";
+import About from "./components/About";
+import Work from "./components/Work";
+import Experience from "./components/Experience";
+import Stack from "./components/Stack";
+import Awards from "./components/Awards";
+import Contact from "./components/Contact";
+import { NAV, MQ1, MQ2 } from "./data/portfolioData";
 
-function App() {
-  const [viewMode, setViewMode] = useState('design');
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+export default function App() {
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState("");
+  const [msg, setMsg] = useState(null);
+  const timer = useRef(null);
 
-  // Keyboard shortcut listener for Cmd+K / Ctrl+K
+  const [dark, setDark] = useState(() => {
+    try {
+      const t = document.documentElement.getAttribute("data-theme");
+      if (t) return t === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } catch {
+      return false;
+    }
+  });
+
+  const toast = useCallback((m) => {
+    setMsg(m);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setMsg(null), 1800);
+  }, []);
+
+  const go = useCallback(
+    (id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (id === "top") window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      else el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    },
+    [reduce]
+  );
+
+  const onTheme = () => {
+    const n = !dark;
+    setDark(n);
+    document.documentElement.setAttribute("data-theme", n ? "dark" : "light");
+  };
+
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        sound.playClick();
-        setIsCommandPaletteOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    if (!("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        }),
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    NAV.forEach(([id]) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#08090d] text-[#f1f5f9] selection:bg-cyan-400/20 selection:text-cyan-300 overflow-x-hidden font-sans">
-      {/* Dynamic Cursor with Spatial Magnetism */}
-      <CustomCursor />
-
-      {/* Kinetic WebGL / Canvas 2D Particle Background */}
-      <InteractiveCanvas viewMode={viewMode} />
-
-      {/* Floating Tactical HUD Navigation */}
-      <HUD
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-      />
-
-      {/* Main Experiential Canvas */}
-      <main className="relative z-10 space-y-12">
-        <Hero viewMode={viewMode} setViewMode={setViewMode} />
-        <ProjectsSection viewMode={viewMode} />
-        <ConcurrencyMatrix />
-        <ExperienceTimeline />
-        <CreativeLab />
-        <InteractiveTerminal />
-      </main>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Omni-Command Palette Modal */}
-      <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-      />
-    </div>
+    <ToastCtx.Provider value={toast}>
+      <ScrollBar />
+      <Cursor />
+      <div className="wrap">
+        <Nav dark={dark} onTheme={onTheme} active={active} go={go} />
+        <main>
+          <Hero go={go} />
+          <Marquee items={MQ1} outline={true} />
+          <Marquee items={MQ2} reverse={true} speed={60} />
+          <About />
+          <Work />
+          <Experience />
+          <Stack />
+          <Awards />
+          <Contact go={go} />
+        </main>
+      </div>
+      <Toast msg={msg} />
+    </ToastCtx.Provider>
   );
 }
-
-export default App;
