@@ -36,7 +36,6 @@ export const MQ2 = [
   "SuperTest",
   "Vercel",
   "Render",
-  "EthioDeploy",
   "GitHub Actions",
 ];
 
