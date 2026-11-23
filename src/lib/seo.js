@@ -1,11 +1,15 @@
 const SITE_NAME = "Lelisa Hailu";
-const DEFAULT_IMAGE = "/og.png";
-const DEFAULT_IMAGE_ALT = "Lelisa Hailu — full stack engineer in Addis Ababa";
 
 const DESCRIPTIONS = {
-  home: "Lelisa Hailu is a full stack engineer in Addis Ababa building real-time products with MERN, Next.js and Go.",
+  home: "I am Lelisa Hailu a Full Stack Engineer | Senior Software Engineering Student @AASTU | ML Ethusiast,  building real-time products with MERN, Next.js and Go.",
+  about:
+    "About Lelisa Hailu — full stack engineer in Addis Ababa working across MERN, Next.js and Go while moving into applied AI and ML.",
   projects:
-    "Selected work by Lelisa Hailu — real-time auction, social-impact and learning products built end to end with React, Node.js and Go.",
+    "Selected work by Lelisa Hailu — real-time auction, social-impact, AI CV and learning products built end to end with React, Next.js, Node.js and Go.",
+  experience:
+    "Experience of Lelisa Hailu — technical lead at GDG AASTU, Go backend intern at Gebeta Maps, and full-stack internships shipping production systems.",
+  certBlogs:
+    "Certifications and writing by Lelisa Hailu — ALX, Coursera, GDG AASTU and FreeCodeCamp credentials, plus planned engineering notes.",
   notfound: "The requested page or project could not be found.",
 };
 
@@ -57,20 +61,11 @@ export function getPageMeta(route, project) {
   const url = absoluteUrl(pathname);
 
   if (route.name === "project" && project) {
-    const image = project.images?.find((image) => image?.src)?.src || DEFAULT_IMAGE;
-    const usesDefaultImage = image === DEFAULT_IMAGE;
-
     return {
       title: `${project.name} — ${project.kind} | ${SITE_NAME}`,
       description: project.summary,
       url,
-      type: "article",
       robots: "index, follow",
-      image: absoluteUrl(image),
-      imageAlt: `${project.name} — ${project.kind} by Lelisa Hailu`,
-      imageType: usesDefaultImage ? "image/png" : undefined,
-      imageWidth: usesDefaultImage ? 1200 : undefined,
-      imageHeight: usesDefaultImage ? 630 : undefined,
     };
   }
 
@@ -79,13 +74,7 @@ export function getPageMeta(route, project) {
       title: `Projects — ${SITE_NAME}`,
       description: DESCRIPTIONS.projects,
       url,
-      type: "website",
       robots: "index, follow",
-      image: absoluteUrl(DEFAULT_IMAGE),
-      imageAlt: DEFAULT_IMAGE_ALT,
-      imageType: "image/png",
-      imageWidth: 1200,
-      imageHeight: 630,
     };
   }
 
@@ -94,13 +83,7 @@ export function getPageMeta(route, project) {
       title: `Page not found — ${SITE_NAME}`,
       description: DESCRIPTIONS.notfound,
       url,
-      type: "website",
       robots: "noindex, nofollow",
-      image: absoluteUrl(DEFAULT_IMAGE),
-      imageAlt: DEFAULT_IMAGE_ALT,
-      imageType: "image/png",
-      imageWidth: 1200,
-      imageHeight: 630,
     };
   }
 
@@ -108,13 +91,7 @@ export function getPageMeta(route, project) {
     title: `${SITE_NAME} — Full Stack Engineer`,
     description: DESCRIPTIONS.home,
     url,
-    type: "website",
     robots: "index, follow",
-    image: absoluteUrl(DEFAULT_IMAGE),
-    imageAlt: DEFAULT_IMAGE_ALT,
-    imageType: "image/png",
-    imageWidth: 1200,
-    imageHeight: 630,
   };
 }
 
@@ -123,23 +100,10 @@ export function applyPageMeta(meta) {
 
   upsertMeta("description", meta.description);
   upsertMeta("robots", meta.robots);
-  upsertMeta("og:type", meta.type, "property");
-  upsertMeta("og:site_name", SITE_NAME, "property");
-  upsertMeta("og:locale", "en_US", "property");
-  upsertMeta("og:title", meta.title, "property");
-  upsertMeta("og:description", meta.description, "property");
-  upsertMeta("og:url", meta.url, "property");
-  upsertMeta("og:image", meta.image, "property");
-  upsertMeta("og:image:alt", meta.imageAlt, "property");
-  upsertMeta("og:image:type", meta.imageType, "property");
-  upsertMeta("og:image:width", meta.imageWidth, "property");
-  upsertMeta("og:image:height", meta.imageHeight, "property");
-
-  upsertMeta("twitter:card", "summary_large_image");
-  upsertMeta("twitter:title", meta.title);
-  upsertMeta("twitter:description", meta.description);
-  upsertMeta("twitter:image", meta.image);
-  upsertMeta("twitter:image:alt", meta.imageAlt);
-
   upsertLink("canonical", meta.robots.startsWith("noindex") ? undefined : meta.url);
+
+  // Keep SEO to title + description only: drop any leftover social-preview tags.
+  document.head
+    .querySelectorAll('meta[property^="og:"], meta[name^="twitter:"]')
+    .forEach((element) => element.remove());
 }

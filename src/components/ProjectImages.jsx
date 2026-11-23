@@ -31,7 +31,7 @@ export default function ProjectImages({ project }) {
         <>
           <div className="pd-media-grid" data-count={images.length}>
             {images.map((image, index) => (
-              <figure className="pd-shot" key={`${image.src}-${index}`}>
+              <figure className="pd-shot" data-fit={image.fit || "cover"} key={`${image.src}-${index}`}>
                 <button
                   type="button"
                   onClick={() => open(index)}

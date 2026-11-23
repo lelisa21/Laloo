@@ -1,11 +1,8 @@
-import portrait from "../assets/portrait.jpg";
-
 const NAV_ITEMS = [
-  ["About", "/#about"],
-  ["How it works", "/#stack"],
+  ["About", "/about"],
   ["Work", "/projects"],
-  ["Design", "/#design"],
-  ["Experience", "/#path"],
+  ["Experience", "/experience"],
+  ["Blogs & Certifications", "/cert-blogs"],
   ["Contact", "/#contact"],
 ];
 
@@ -21,7 +18,6 @@ export default function SiteHeader({ navigate, theme, onToggleTheme }) {
       <div className="wrap">
         <nav>
           <a className="logo" href="/" onClick={follow("/")}>
-            <img className="av" src={portrait} alt="" width="30" height="30" />
             lelisa<i>.</i>
           </a>
           <ul>

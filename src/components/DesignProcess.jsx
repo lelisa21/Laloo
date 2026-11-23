@@ -30,73 +30,28 @@ export default function DesignProcess() {
     const root = rootRef.current;
     if (!root) return undefined;
 
-    const find = (selector) => root.querySelector(selector);
-    const frame = find(".fr");
-    const screen = find(".scr");
-    const list = find(".dl");
-    const seed = find("#wtb");
+    const frame = root.querySelector(".fr");
+    const screen = root.querySelector(".scr");
+    const list = root.querySelector(".dl");
     const buttons = Array.from(root.querySelectorAll(".ds"));
-
     if (!frame || !screen || !list || !buttons.length) return undefined;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let activeStage = 0;
-    let auto = true;
-    let advanceTimer = 0;
-    let seedTimer = 0;
-    let observer = null;
-
-    function setStage(stage) {
-      activeStage = stage;
+    const setStage = (stage) => {
       frame.dataset.k = String(stage);
       screen.dataset.k = String(stage);
       screen.dataset.ui = stage >= 2 ? "1" : "0";
       buttons.forEach((button, index) => button.classList.toggle("on", index === stage));
-    }
-
-    function advance() {
-      if (!auto) return;
-      setStage((activeStage + 1) % 4);
-      advanceTimer = window.setTimeout(advance, 3700);
-    }
-
-    const onButtonClick = (index) => {
-      auto = false;
-      window.clearTimeout(advanceTimer);
-      list.classList.add("hold");
-      setStage(index);
     };
 
-    buttons.forEach((button, index) => {
-      button.addEventListener("click", () => onButtonClick(index));
+    const onClick = buttons.map((button, index) => () => {
+      list.classList.add("hold");
+      setStage(index);
     });
-
-    if ("IntersectionObserver" in window) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0]?.isIntersecting && auto && !advanceTimer) {
-            advanceTimer = window.setTimeout(advance, 3700);
-          }
-        },
-        { threshold: 0.4 }
-      );
-      observer.observe(frame);
-    }
-
-    if (!reduced) {
-      seedTimer = window.setInterval(() => {
-        if (activeStage === 0 && seed) {
-          seed.setAttribute("seed", String(Math.floor(Math.random() * 30)));
-        }
-      }, 170);
-    }
-
+    buttons.forEach((button, index) => button.addEventListener("click", onClick[index]));
     setStage(0);
 
     return () => {
-      window.clearTimeout(advanceTimer);
-      window.clearInterval(seedTimer);
-      observer?.disconnect();
+      buttons.forEach((button, index) => button.removeEventListener("click", onClick[index]));
     };
   }, []);
 
@@ -109,16 +64,10 @@ export default function DesignProcess() {
       }}
     >
       <div className="wrap" ref={rootRef}>
-        <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-          <filter id="wob">
-            <feTurbulence id="wtb" type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3" />
-            <feDisplacementMap in="SourceGraphic" scale="3.5" />
-          </filter>
-        </svg>
         <h2>How I design</h2>
         <p className="lead">
-          One Cheretanet screen, four stages. Watch it grow from a chalk sketch into a shipped
-          product, or tap a stage to jump there.
+          One Cheretanet screen, four stages. Tap a stage to see it grow from a chalk sketch into
+          a shipped product.
         </p>
         <div className="dz">
           <div className="fr" data-k="0">

@@ -3,8 +3,11 @@ import Background from "./components/Background";
 import SiteHeader from "./components/SiteHeader";
 import SiteFooter from "./components/SiteFooter";
 import Home from "./pages/Home";
+import AboutPage from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetail from "./pages/ProjectDetail";
+import ExperiencePage from "./pages/ExperiencePage";
+import CertBlogsPage from "./pages/CertBlogsPage";
 import NotFound from "./pages/NotFound";
 import { getProject } from "./data/projects";
 import { applyPageMeta, getPageMeta } from "./lib/seo";
@@ -17,7 +20,10 @@ function normalizePath(pathname) {
 function parseRoute() {
   const path = normalizePath(window.location.pathname);
   if (path === "/" || path === "/index.html") return { name: "home" };
+  if (path === "/about") return { name: "about" };
   if (path === "/projects") return { name: "projects" };
+  if (path === "/experience") return { name: "experience" };
+  if (path === "/cert-blogs") return { name: "certBlogs" };
 
   const match = path.match(/^\/projects\/([^/]+)$/);
   if (match) {
@@ -127,10 +133,13 @@ export default function App() {
       <Background />
       <SiteHeader navigate={navigate} theme={theme} onToggleTheme={toggleTheme} />
       {route.name === "home" && <Home navigate={navigate} />}
+      {route.name === "about" && <AboutPage navigate={navigate} />}
       {route.name === "projects" && <ProjectsPage navigate={navigate} />}
       {route.name === "project" && (
         <ProjectDetail projectId={route.id} navigate={navigate} />
       )}
+      {route.name === "experience" && <ExperiencePage navigate={navigate} />}
+      {route.name === "certBlogs" && <CertBlogsPage navigate={navigate} />}
       {route.name === "notfound" && <NotFound navigate={navigate} />}
       <SiteFooter />
     </>

@@ -1,5 +1,6 @@
 import { getProject, PROJECTS } from "../data/projects";
 import ProjectImages from "../components/ProjectImages";
+import Certifications from "../components/Certifications";
 import NotFound from "./NotFound";
 
 export default function ProjectDetail({ projectId, navigate }) {
@@ -154,6 +155,8 @@ export default function ProjectDetail({ projectId, navigate }) {
               </ul>
             </section>
           </div>
+
+          <Certifications items={project.certifications} />
         </div>
 
         <nav className="pd-pager" aria-label="Project navigation">

@@ -1,7 +1,3 @@
-import AuctionDemo from "../components/AuctionDemo";
-import Marquee from "../components/Marquee";
-import AboutSection from "../components/AboutSection";
-import StackJourney from "../components/StackJourney";
 import DesignProcess from "../components/DesignProcess";
 import { PROJECTS } from "../data/projects";
 
@@ -74,54 +70,46 @@ export default function Home({ navigate }) {
     <main id="top">
       <section className="hero">
         <div className="wrap">
-          <div>
-            <h1>
-              <span>
-                <b>I design</b>
-              </span>
-              <span>
-                <b>and build</b>
-              </span>
-              <span>
-                <b>whole products.</b>
-              </span>
-            </h1>
-            <p>
-              Lelisa Hailu, full stack engineer in Addis Ababa. From the first sketch to the
-              production server, with MERN, Next.js and Go.
+          <div className="hero-copy">
+            <p className="hero-lede">
+              I’m Lelisa Hailu, a full stack engineer who takes products from the first sketch
+              to the production server — real-time interfaces, solid APIs and systems built to
+              last, with React, Next.js, Node.js and Go.
             </p>
+
             <div className="cta">
               <a className="btn p" href="/#work" onClick={follow("/#work")}>
-                See my work
+                View selected work <span className="ar" aria-hidden="true">→</span>
               </a>
               <a className="btn" href="/#contact" onClick={follow("/#contact")}>
                 Get in touch
               </a>
             </div>
-            <div className="stats">
-              <div>
-                <b>3</b>live products
-              </div>
-              <div>
-                <b>4</b>teams joined
-              </div>
-              <div>
-                <b>1st</b>Tech Fest 2026
-              </div>
-              <div>
-                <b>4th/79</b>STARK Hackathon
-              </div>
+
+            <div className="hero-socials">
+              <span className="sep" aria-hidden="true" />
+              <a href="mailto:lelisahailu22@gmail.com">
+                Email <span aria-hidden="true text-b">↗</span>
+              </a>
             </div>
           </div>
-          <AuctionDemo />
+
+          <ul className="hero-stats" aria-label="Track record">
+            <li>
+              <b>4</b>
+              <span>Live products</span>
+            </li>
+            <li>
+              <b>97.5%</b>
+              <span>Tech Fest score</span>
+            </li>
+            <li>
+              <b>4th / 79</b>
+              <span>STARK Hackathon</span>
+            </li>
+          </ul>
         </div>
       </section>
-
-      <Marquee />
-
-      <AboutSection />
-
-      <StackJourney />
 
       <section id="work">
         <div className="wrap">

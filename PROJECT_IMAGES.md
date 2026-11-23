@@ -41,6 +41,17 @@ images: [
 
 The component uses the first `5` entries and ignores entries without a `src`.
 
+For portrait screenshots, add `fit: "contain"` so the gallery uses a 4:5 frame and shows the whole image instead of cropping it to a wide banner:
+
+```js
+{
+  src: "/projects/bikattech/cv-studio.png",
+  alt: "CV Studio by BikatTech",
+  caption: "CV Studio — write, match and export",
+  fit: "contain",
+},
+```
+
 ## Layout behavior
 
 | Images | Layout |
