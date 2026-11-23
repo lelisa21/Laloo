@@ -130,80 +130,23 @@ export default function Home({ navigate }) {
 
       <DesignProcess />
 
-      <section id="path">
+      <section id="more">
         <div className="wrap">
-          <h2>Experience</h2>
-          <p className="lead">Shipping in production while leading a community of builders.</p>
-          <div className="two">
-            <div className="tl">
-              <div className="job">
-                <h3>Technical Lead, GDG AASTU</h3>
-                <div className="m">Oct 2026 to now</div>
-                <p>
-                  Leading technical initiatives, mentoring members and running workshops for the
-                  Google Developer Group chapter.
-                </p>
-              </div>
-              <div className="job">
-                <h3>Back End Developer Intern, Gebeta Maps</h3>
-                <div className="m">Jun 2026 to now · Remote</div>
-                <p>
-                  Writing Go services for an Ethiopia-focused navigation app: real-time traffic,
-                  routing and location features, with stable APIs under production load.
-                </p>
-              </div>
-              <div className="job">
-                <h3>Full Stack Engineer Intern, SWENETIX Tech</h3>
-                <div className="m">Aug to Oct 2026 · On-site</div>
-                <p>
-                  Designed and built a complete Restaurant Management System, owning features across
-                  the MERN stack.
-                </p>
-              </div>
-              <div className="job">
-                <h3>Full Stack Developer Intern, Prodigy InfoTech</h3>
-                <div className="m">Earlier</div>
-                <p>
-                  Built GreatTeam EMS with role-based access, attendance tracking and extensible
-                  APIs.
-                </p>
-              </div>
-            </div>
-            <div>
-              <h3 style={{ fontSize: 24, marginBottom: 16 }}>Recognition</h3>
-              <ul className="ach">
-                <li>
-                  <b>1st place</b>GDG AASTU Tech Fest 2026, 97.5% score
-                </li>
-                <li>
-                  <b>4th of 79</b>STARK Official Hackathon, top 5 finalist
-                </li>
-                <li>
-                  <b>ALX Certificate</b>Appreciation for peer mentoring
-                </li>
-              </ul>
-              <h3 style={{ fontSize: 24, margin: "36px 0 16px" }}>Toolbox</h3>
-              <div className="sk2">
-                <div>
-                  <span>Languages</span>JavaScript, TypeScript, Go, C++
-                </div>
-                <div>
-                  <span>Frontend</span>React, Next.js, Redux, Tailwind, shadcn/ui
-                </div>
-                <div>
-                  <span>Backend</span>Node.js, Express, Go, Socket.io, REST
-                </div>
-                <div>
-                  <span>Data</span>MongoDB, PostgreSQL, MySQL, Redis
-                </div>
-                <div>
-                  <span>Ship</span>Git, Jest, GitHub Actions, Vercel, Render
-                </div>
-                <div>
-                  <span>Design</span>Figma, prototyping, design systems
-                </div>
-              </div>
-            </div>
+          <h2>Explore more</h2>
+          <p className="lead">
+            The full background, the roles behind the work, and the certifications are one click
+            away.
+          </p>
+          <div className="cta">
+            <a className="btn p" href="/about" onClick={follow("/about")}>
+              About me <span className="ar" aria-hidden="true">→</span>
+            </a>
+            <a className="btn" href="/experience" onClick={follow("/experience")}>
+              Experience
+            </a>
+            <a className="btn" href="/cert-blogs" onClick={follow("/cert-blogs")}>
+              Blogs &amp; certifications
+            </a>
           </div>
         </div>
       </section>

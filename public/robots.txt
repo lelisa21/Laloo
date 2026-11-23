@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Single-page app: every route is served from index.html.

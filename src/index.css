@@ -2162,6 +2162,10 @@ footer a.m {
   color: var(--mute);
   font-size: 15px;
 }
+.pd-feature .pd-kicker {
+  margin-bottom: 9px;
+  font-size: 10px;
+}
 .pd-feature b {
   display: block;
   margin-bottom: 4px;
@@ -2169,6 +2173,10 @@ footer a.m {
   font-family: var(--d);
   font-size: 17px;
   letter-spacing: -0.01em;
+}
+.pd-feature p {
+  margin-top: 8px;
+  font-size: 14px;
 }
 .pd-arch {
   display: grid;

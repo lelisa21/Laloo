@@ -60,6 +60,15 @@ export function getPageMeta(route, project) {
   const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
   const url = absoluteUrl(pathname);
 
+  if (route.name === "about") {
+    return {
+      title: `About — ${SITE_NAME}`,
+      description: DESCRIPTIONS.about,
+      url,
+      robots: "index, follow",
+    };
+  }
+
   if (route.name === "project" && project) {
     return {
       title: `${project.name} — ${project.kind} | ${SITE_NAME}`,
@@ -73,6 +82,24 @@ export function getPageMeta(route, project) {
     return {
       title: `Projects — ${SITE_NAME}`,
       description: DESCRIPTIONS.projects,
+      url,
+      robots: "index, follow",
+    };
+  }
+
+  if (route.name === "experience") {
+    return {
+      title: `Experience — ${SITE_NAME}`,
+      description: DESCRIPTIONS.experience,
+      url,
+      robots: "index, follow",
+    };
+  }
+
+  if (route.name === "certBlogs") {
+    return {
+      title: `Blogs & Certifications — ${SITE_NAME}`,
+      description: DESCRIPTIONS.certBlogs,
       url,
       robots: "index, follow",
     };
